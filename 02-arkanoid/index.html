@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ARKANOID</title>
+</head>
+
+<style>
+  body {
+    background-color: #222;
+
+    >main {
+      display: flex;
+      margin: auto;
+      justify-content: center;
+
+      >canvas {
+        border: white 3px solid;
+        border-bottom: transparent;
+        background-color: black;
+      }
+    }
+  }
+</style>
+
+<body>
+  <main>
+    <canvas>
+    </canvas>
+  </main>
+</body>
+
+</html>
+
+<script>
+  const canvas = document.querySelector('canvas')
+  const ctx = canvas.getContext('2d')
+
+  canvas.width = '666'
+  canvas.height = '555'
+  let x = canvas.width / 2
+  let y = canvas.height - 40
+  let dx = 2
+  let dy = -2
+  const ballRadius = 4
+
+  function drawBall() {
+    ctx.beginPath()
+    ctx.arc(x, y, ballRadius, 0, 360)
+    ctx.fillStyle = '#fff'
+    ctx.fill()
+
+  }
+  function ballMovement(){
+    if(
+      x + dx > canvas.width - ballRadius || 
+      x + dx < ballRadius
+    ){
+      dx = -dx
+    }
+    if(
+      y + dy < ballRadius
+    ){
+      dy = -dy
+    }
+    if(
+      y + dy  > canvas.height
+    )
+    {
+      console.log('GAME OVER')
+      document.location.reload()
+    }
+    x = x + dx
+    y = y + dy
+  }
+
+  function clearCanvas(){
+    ctx.clearRect(0,0,canvas.width, canvas.height)
+  }
+
+  function draw(){
+    clearCanvas()
+    drawBall()
+    ballMovement()
+
+    window.requestAnimationFrame(draw)
+  }
+
+  draw()
+
+</script>
